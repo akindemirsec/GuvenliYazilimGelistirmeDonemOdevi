@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}!</h1>
+    <nav>
+        <a href="{% url 'secure' %}">Secure Page</a>
+        <a href="{% url 'item_list' %}">Item List</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item Form</title>
+</head>
+<body>
+    <h1>{{ item.id|yesno:"Edit Item,Create Item" }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ item.name }}"><br><br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description">{{ item.description }}</textarea><br><br>
+        <button type="submit">{{ item.id|yesno:"Update,Create" }}</button>
+    </form>
+</body>
+</html>

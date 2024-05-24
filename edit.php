@@ -38,4 +38,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   
+    <div class="container">
+        <h1>Ürünü Düzenle</h1>
+        <form action="" method="post">
+            <label for="name">İsim:</label>
+            <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($product['name']); ?>" required>
+            <label for="price">Fiyat:</label>
+            <input type="number" step="0.01" name="price" id="price" value="<?php echo htmlspecialchars($product['price']); ?>" required>
+            <label for="description">Açıklama:</label>
+            <textarea name="description" id="description"><?php echo htmlspecialchars($product['description']); ?></textarea>
+            <label for="image">Resim URL'si:</label>
+            <input type="text" name="image" id="image" value="<?php echo htmlspecialchars($product['image']); ?>">
+            <button type="submit">Kaydet</button>
+        </form>
+        <a href="index.php" class="button">Geri Dön</a>
+    </div>
+</body>
+</html>

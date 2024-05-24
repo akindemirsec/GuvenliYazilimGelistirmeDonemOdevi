@@ -1,20 +1,22 @@
 <?php
 session_start();
-require 'sqlite.php';
-$db = new Database();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $user = $db->fetch('SELECT * FROM users WHERE username = :username', ['username' => $username]);
+    require 'sqlite.php';
+    $db = new Database();
+
+    // Kullanıcıyı veritabanından al
+    $user = $db->fetch("SELECT * FROM users WHERE username = :username", ['username' => $username]);
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = $user;
         header('Location: index.php');
         exit;
     } else {
-        $error = 'Geçersiz kullanıcı adı veya şifre';
+        $error = 'Kullanıcı adı veya şifre yanlış.';
     }
 }
 ?>

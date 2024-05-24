@@ -3,8 +3,6 @@ session_start();
 require 'sqlite.php';
 $db = new Database();
 
-$error = '';
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -16,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: index.php');
         exit;
     } else {
-        $error = 'Kullanıcı adı veya şifre yanlış';
+        $error = 'Geçersiz kullanıcı adı veya şifre';
     }
 }
 ?>
@@ -31,16 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <h1>Giriş Yap</h1>
+        <?php if (isset($error)): ?>
+            <p style="color: red;"><?php echo $error; ?></p>
+        <?php endif; ?>
         <form action="login.php" method="post">
-            <?php if ($error): ?>
-                <p style="color: red;"><?php echo $error; ?></p>
-            <?php endif; ?>
             <label for="username">Kullanıcı Adı:</label>
             <input type="text" name="username" id="username" required>
             <label for="password">Şifre:</label>
             <input type="password" name="password" id="password" required>
             <button type="submit">Giriş Yap</button>
         </form>
+        <a href="register.php" class="button">Kayıt Ol</a>
     </div>
 </body>
 </html>

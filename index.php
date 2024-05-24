@@ -5,25 +5,23 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-require 'sqlite.php';
-$db = new Database();
-
-$products = $db->fetchAll('SELECT * FROM products');
+$user = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Butik</title>
+    <title>Ana Sayfa</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Ürünler</h1>
+        <h1>Ana Sayfa</h1>
         <?php if ($_SESSION['user']['role'] == 'admin' || $_SESSION['user']['role'] == 'editor'): ?>
             <a href="add.php" class="button">Yeni Ürün Ekle</a>
         <?php endif; ?>
+        <a href="profile.php" class="button">Profil</a>
         <table>
             <tr>
                 <th>Resim</th>

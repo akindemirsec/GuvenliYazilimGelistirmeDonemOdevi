@@ -62,6 +62,12 @@ unset($_SESSION['message']); // Mesajı temizle
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                             <button type="submit">Sepete Ekle</button>
                         </form>
+                        <?php if ($_SESSION['user']['role'] == 'admin'): ?>
+                            <form action="delete.php" method="post" style="display:inline;">
+                                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                <button type="submit" onclick="return confirm('Bu ürünü silmek istediğinizden emin misiniz?');">Sil</button>
+                            </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

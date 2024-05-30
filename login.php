@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Kullanıcıyı veritabanından al
     $user = $db->fetch("SELECT * FROM users WHERE username = :username", ['username' => $username]);
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($user && $password === $user['password']) { // Düz metin şifre doğrulaması
         $_SESSION['user'] = $user;
         header('Location: index.php');
         exit;

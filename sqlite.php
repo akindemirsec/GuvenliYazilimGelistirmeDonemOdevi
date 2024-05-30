@@ -9,6 +9,17 @@ class Database {
     }
 
     private function initialize() {
+        // SQLite veritabanını oluştur
+        $this->createDatabase();
+    
+        // Admin kullanıcısını ekle
+        $this->addUser('admin', 'admin123', 'admin');
+    
+        // Editor kullanıcısını ekle
+        $this->addUser('editor', 'editor123', 'editor');
+    }
+    
+    private function createDatabase() {
         // Kullanıcılar tablosunu oluştur
         $this->pdo->exec("CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +28,7 @@ class Database {
             profile_image TEXT,
             role TEXT NOT NULL DEFAULT 'user'
         )");
-
+    
         // Ürünler tablosunu oluştur (eğer yoksa)
         $this->pdo->exec("CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,26 +37,23 @@ class Database {
             description TEXT,
             image TEXT
         )");
-
-        // Admin kullanıcısını ekle
-        $adminExists = $this->fetch('SELECT * FROM users WHERE username = :username', ['username' => 'admin']);
-        if (!$adminExists) {
+    }
+    
+    private function addUser($username, $password, $role) {
+        // Kullanıcıyı veritabanına ekleme
+        $userExists = $this->fetch('SELECT * FROM users WHERE username = :username', ['username' => $username]);
+        if (!$userExists) {
             $this->query('INSERT INTO users (username, password, role) VALUES (:username, :password, :role)', [
-                'username' => 'admin',
-                'password' => password_hash('admin123', PASSWORD_BCRYPT),
-                'role' => 'admin'
+                'username' => $username,
+                'password' => $password, // Şifreyi düz metin olarak sakla
+                'role' => $role
             ]);
         }
+    }
+    
 
-        // Editor kullanıcısını ekle
-        $editorExists = $this->fetch('SELECT * FROM users WHERE username = :username', ['username' => 'editor']);
-        if (!$editorExists) {
-            $this->query('INSERT INTO users (username, password, role) VALUES (:username, :password, :role)', [
-                'username' => 'editor',
-                'password' => password_hash('editor123', PASSWORD_BCRYPT),
-                'role' => 'editor'
-            ]);
-        }
+    public function getPdo() {
+        return $this->pdo;
     }
 
     public function query($query, $params = []) {

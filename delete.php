@@ -8,10 +8,14 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
 require 'sqlite.php';
 $db = new Database();
 
-$id = $_GET['id'];
-
-$db->query('DELETE FROM products WHERE id = :id', ['id' => $id]);
-
-header('Location: index.php');
-exit;
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'])) {
+    $product_id = $_POST['product_id'];
+    $db->query('DELETE FROM products WHERE id = :id', ['id' => $product_id]);
+    $_SESSION['message'] = 'Ürün başarıyla silindi';
+    header('Location: index.php');
+    exit;
+} else {
+    header('Location: index.php');
+    exit;
+}
 ?>

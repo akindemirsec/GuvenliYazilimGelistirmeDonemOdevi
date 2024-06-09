@@ -16,9 +16,6 @@ jobs:
       with:
         php-version: 7.4
 
-    - name: Install dependencies
-      run: composer install
-
   sbom:
     runs-on: ubuntu-latest
     needs: build
@@ -49,9 +46,6 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: 7.4
-
-    - name: Install dependencies
-      run: composer install
 
     - name: Run SAST
       uses: github/codeql-action/init@v2 # Update to v2

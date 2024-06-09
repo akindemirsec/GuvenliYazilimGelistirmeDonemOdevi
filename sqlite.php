@@ -35,7 +35,8 @@ class Database {
             name TEXT NOT NULL,
             price REAL NOT NULL,
             description TEXT,
-            image TEXT
+            image TEXT,
+            listed INTEGER NOT NULL DEFAULT 1
         )");
     }
     
@@ -50,7 +51,6 @@ class Database {
             ]);
         }
     }
-    
 
     public function getPdo() {
         return $this->pdo;
@@ -73,4 +73,3 @@ class Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>

@@ -11,8 +11,13 @@ $db = new Database();
 // Arama terimini al
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Veritabanında ürünleri adlarına göre ara
-$products = $db->fetchAll("SELECT * FROM products WHERE name LIKE :search_query", ['search_query' => "%$search_query%"]);
+// Veritabanında listelenen ürünleri adlarına göre ara
+try {
+    $products = $db->fetchAll("SELECT * FROM products WHERE name LIKE '%$search_query%' AND listed = 1");
+} catch (PDOException $e) {
+    echo "Hata: " . $e->getMessage();
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,23 +30,21 @@ $products = $db->fetchAll("SELECT * FROM products WHERE name LIKE :search_query"
 <body>
     <div class="container">
         <h1>Arama Sonuçları</h1>
-        <p>Aradığınız kelime: <?php echo $search_query; ?></p> <!-- XSS zafiyeti burada -->
-        <table>
-            <tr>
-                <th>Resim</th>
-                <th>İsim</th>
-                <th>Fiyat</th>
-                <th>Açıklama</th>
-            </tr>
-            <?php foreach ($products as $product): ?>
-                <tr>
-                    <td><img src="<?php echo htmlspecialchars($product['image']); ?>" alt="Ürün Resmi"></td>
-                    <td><?php echo htmlspecialchars($product['name']); ?></td>
-                    <td><?php echo htmlspecialchars($product['price']); ?> TL</td>
-                    <td><?php echo htmlspecialchars($product['description']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
+        <p>Aradığınız kelime: <?php echo htmlspecialchars($search_query, ENT_QUOTES, 'UTF-8'); ?></p>
+        <div class="products">
+            <?php if (count($products) > 0): ?>
+                <?php foreach ($products as $product): ?>
+                    <div class="product-card">
+                        <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="Ürün Resmi">
+                        <h2><?php echo htmlspecialchars($product['name']); ?></h2>
+                        <p><?php echo htmlspecialchars($product['price']); ?> TL</p>
+                        <p><?php echo htmlspecialchars($product['description']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Ürün bulunamadı.</p>
+            <?php endif; ?>
+        </div>
         <a href="index.php" class="button">Ana Sayfaya Dön</a>
     </div>
 </body>

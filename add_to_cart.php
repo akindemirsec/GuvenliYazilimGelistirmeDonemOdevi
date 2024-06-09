@@ -24,4 +24,3 @@ $_SESSION['cart'][] = $product;
 $_SESSION['message'] = 'Ürün sepete eklendi.';
 header('Location: index.php');
 exit;
-?>

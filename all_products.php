@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin') {
     header('Location: login.php');
     exit;
 }
@@ -8,20 +8,16 @@ if (!isset($_SESSION['user'])) {
 require 'sqlite.php';
 $db = new Database();
 
-// Ürünleri veritabanından al
-$products = $db->fetchAll('SELECT * FROM products WHERE listed = 1');
+// Tüm ürünleri veritabanından al
+$products = $db->fetchAll('SELECT * FROM products');
 
 $user = $_SESSION['user'];
-
-// Sepete eklendiğine dair mesajı kontrol et
-$message = isset($_SESSION['message']) ? $_SESSION['message'] : null;
-unset($_SESSION['message']); // Mesajı temizle
 ?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Ana Sayfa</title>
+    <title>Tüm Ürünler</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,10 +40,7 @@ unset($_SESSION['message']); // Mesajı temizle
             </div>
         </header>
         <main>
-            <h1>Ürünler</h1>
-            <?php if ($message): ?>
-                <p class="message"><?php echo $message; ?></p>
-            <?php endif; ?>
+            <h1>Tüm Ürünler</h1>
             <div class="products">
                 <?php foreach ($products as $product): ?>
                     <div class="product-card">

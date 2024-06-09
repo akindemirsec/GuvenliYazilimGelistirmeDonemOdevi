@@ -16,12 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $price = $_POST['price'];
     $description = $_POST['description'];
     $image = $_POST['image'];
+    $listed = isset($_POST['listed']) ? 1 : 0;
 
-    $db->query('UPDATE products SET name = :name, price = :price, description = :description, image = :image WHERE id = :id', [
+    $db->query('UPDATE products SET name = :name, price = :price, description = :description, image = :image, listed = :listed WHERE id = :id', [
         'name' => $name,
         'price' => $price,
         'description' => $description,
         'image' => $image,
+        'listed' => $listed,
         'id' => $id
     ]);
 
@@ -49,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <textarea name="description" id="description"><?php echo htmlspecialchars($product['description']); ?></textarea>
             <label for="image">Resim URL'si:</label>
             <input type="text" name="image" id="image" value="<?php echo htmlspecialchars($product['image']); ?>">
+            <label for="listed">Listele:</label>
+            <input type="checkbox" name="listed" id="listed" <?php echo $product['listed'] ? 'checked' : ''; ?>>
             <button type="submit">Kaydet</button>
         </form>
         <a href="index.php" class="button">Geri Dön</a>

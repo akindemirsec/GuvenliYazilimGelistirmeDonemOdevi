@@ -28,7 +28,7 @@ unset($_SESSION['message']); // Mesajı temizle
     <div class="container">
         <header>
             <div class="top-bar">
-                <a href="index.php" class="logo">Trendyol</a>
+                <a href="index.php" class="logo">Butik</a>
                 <form action="search.php" method="GET" class="search-form">
                     <input type="text" name="search" placeholder="Ürün ara...">
                     <button type="submit">Ara</button>

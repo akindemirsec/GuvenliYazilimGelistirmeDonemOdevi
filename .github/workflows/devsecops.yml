@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3 # Update to v3 to use Node.js 20
 
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
@@ -25,14 +25,14 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3 # Update to v3 to use Node.js 20
 
     - name: Generate SBOM
       run: |
         docker run --rm -v $(pwd):/project cyclonedx/cyclonedx-cli:latest -o /project/sbom.json
 
     - name: Upload SBOM
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3 # Update to v3 to use Node.js 20
       with:
         name: sbom
         path: sbom.json
@@ -43,7 +43,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3 # Update to v3 to use Node.js 20
 
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
@@ -54,12 +54,12 @@ jobs:
       run: composer install
 
     - name: Run SAST
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2 # Update to v2
       with:
         languages: php
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2 # Update to v2
 
   dast:
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3 # Update to v3 to use Node.js 20
 
     - name: Start PHP server
       run: php -S localhost:8000 -t public/
@@ -79,7 +79,7 @@ jobs:
         rules-file: '.github/zap-rules.txt'
 
     - name: Upload ZAP Report
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3 # Update to v3 to use Node.js 20
       with:
         name: zap-report
         path: owasp-zap-report.html
